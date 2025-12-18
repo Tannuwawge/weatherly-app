@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+  /* Strict Background Gradient (Fixed) */
+  --bg-gradient: linear-gradient(135deg, #f7b7c8 0%, #c6c2e8 45%, #8bb9e8 100%);
+  
+  /* Text Color System - Light Mode */
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --heading-color: #0f172a;
+  --accent-green: #4ade80;
+  
+  /* UI Components */
+  --glass-bg: rgba(255, 255, 255, 0.18);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  --blur-amt: 14px;
+  
+  /* Toggle & Inputs */
+  --input-bg: rgba(255, 255, 255, 0.15);
+  --toggle-bg: #e2e8f0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: color 0.3s ease;
+}
+
+/* Global Background Layer */
+.global-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-gradient);
+  background-size: cover;
+  z-index: 0; /* Base Layer */
+  pointer-events: none;
+}
+
+/* App Content Wrapper */
+.app-content {
+  position: relative;
+  z-index: 5; /* Above animation layer (1) */
+}
+
+/* Dark Mode Overrides */
+body.dark-mode {
+  /* Text Color System - Dark Mode */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5f5;
+  --text-muted: #94a3b8;
+  --heading-color: #ffffff;
+  /* --accent-green stays same */
+  
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --toggle-bg: #334155;
+}
+
+/* Dark Mode Overlay */
+body.dark-mode::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  z-index: 0; /* Same as global-background, will stack via DOM order if needed, or just be careful */
+}
+/* Note: body::before is pseudo-element of body. .global-background is a div. 
+   body::before z-index relative to body stacking context?
+   Actually, let's just make .global-background handle the overlay internally or use another div.
+   But keeping body::before is fine if we manage z-index.
+   Let's set body::before z-index to 0.5 to be above global-background(0) but below weather-bg(1).
+*/
+body.dark-mode::before {
+    z-index: 0; 
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-color) !important;
+}
+
+/* Glassmorphism Utilities */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur-amt));
+  -webkit-backdrop-filter: blur(var(--blur-amt));
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: var(--glass-shadow);
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+}
+
+/* Pill Inputs */
+.glass-input {
+  background: var(--input-bg);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--heading-color);
+  border-radius: 999px; /* Pill shape */
+  padding: 0.75rem 1.5rem;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: var(--accent-green);
+  color: var(--heading-color);
+  box-shadow: 0 0 15px rgba(74, 222, 128, 0.3); /* Soft green glow */     
+  outline: none;
+}
+
+/* Input Placeholder Visibility Fix */
+.glass-input::placeholder {
+  color: #6b7280; /* Light Mode */
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .glass-input::placeholder {
+  color: #cfd3dc; /* Dark Mode */
+}
+
+/* Buttons */
+.btn-accent {
+  background-color: var(--accent-green);
+  color: #0f172a; /* Dark text on green */
+  border: none;
+  border-radius: 999px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-accent:hover {
+  background-color: #38bdf8; /* Light blueish hover or just brightness */ 
+  filter: brightness(1.1);
+  transform: scale(1.05);
+  color: #0f172a;
+}
+
+/* Navbar Styling */
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--heading-color) !important;
+}
+
+.nav-link {
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+  margin: 0 10px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--heading-color) !important;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: var(--accent-green);
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Custom Calendar Icon Button */
+.calendar-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.2s;
+}
+.calendar-btn:hover {
+  transform: scale(1.1);
+  color: var(--accent-green);
+}

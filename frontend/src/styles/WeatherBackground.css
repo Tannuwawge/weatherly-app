@@ -1,0 +1,124 @@
+.weather-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1; /* Above background gradient (-10), below content (5) */
+  overflow: hidden;
+}
+
+/* --- RAIN --- */
+.rain-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(10deg) scale(1.2); /* Slight diagonal */
+}
+
+.raindrop {
+  position: absolute;
+  width: 2px;
+  height: 20px;
+  background: rgba(90, 120, 160, 0.35); /* Light Mode */
+  top: -30px;
+  animation: fall linear infinite;
+}
+
+body.dark-mode .raindrop {
+  background: rgba(180, 220, 255, 0.55); /* Dark Mode */
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(120vh);
+  }
+}
+
+.lightning {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes flash {
+  0%, 92% { opacity: 0; }
+  93% { opacity: 0.06; } /* Max opacity 0.06 */
+  94% { opacity: 0; }
+  95% { opacity: 0.06; }
+  100% { opacity: 0; }
+}
+
+/* --- SNOW --- */
+.snow-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.snowflake {
+  position: absolute;
+  color: white; /* For text-based snowflake if using emoji, but we will use clip-path/svg */
+  top: -20px;
+  animation: snow-fall linear infinite, snow-sway 4s ease-in-out infinite alternate;
+  
+  /* Create Snowflake Shape using text content '❄' or SVG background */
+  /* User requested SVG or Clip-path. Let's use text content ❄ which is SVG-like vector in font, 
+     OR we can use a clip-path. The user said: "Use: ❄ SVG snowflake OR CSS clip-path snowflake NOT circles or dots"
+     Let's use the unicode character ❄ as it's the most performant "SVG-like" vector without extra HTTP requests,
+     and we can style it.
+  */
+  content: '❄';
+  font-size: 1.5em; /* Default size, overridden inline */
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3)); /* Soft glow */
+  color: rgba(255, 255, 255, 0.75); /* Light Mode */
+}
+
+body.dark-mode .snowflake {
+  color: rgba(255, 255, 255, 0.9); /* Dark Mode */
+}
+
+@keyframes snow-fall {
+  to {
+    transform: translateY(120vh);
+  }
+}
+
+@keyframes snow-sway {
+  from { margin-left: -15px; }
+  to { margin-left: 15px; }
+}
+
+/* --- SUMMER / SUN --- */
+.sun-container {
+  position: absolute;
+  top: -10%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  pointer-events: none;
+}
+
+.sun-rays {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* Light Mode Color */
+  background: radial-gradient(circle, rgba(255, 200, 120, 0.18) 0%, rgba(255, 200, 120, 0) 70%);
+  animation: pulse-rotate 45s linear infinite; /* Very slow rotation */
+}
+
+body.dark-mode .sun-rays {
+  /* Dark Mode Color */
+  background: radial-gradient(circle, rgba(255, 215, 150, 0.28) 0%, rgba(255, 215, 150, 0) 70%);
+}
+
+@keyframes pulse-rotate {
+  0% { transform: rotate(0deg) scale(1); opacity: 0.8; }
+  50% { transform: rotate(180deg) scale(1.1); opacity: 1; }
+  100% { transform: rotate(360deg) scale(1); opacity: 0.8; }
+}

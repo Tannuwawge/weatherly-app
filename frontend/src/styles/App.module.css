@@ -1,0 +1,36 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dark {
+  color: var(--text-primary);
+  background: linear-gradient(135deg, rgba(246,177,195,0.2), rgba(167,191,232,0.2)),
+              radial-gradient(circle at 20% 20%, #F6B1C3 0%, transparent 40%),
+              radial-gradient(circle at 80% 10%, #A7BFE8 0%, transparent 40%),
+              radial-gradient(circle at 50% 90%, #5F9FD7 0%, transparent 45%),
+              var(--bg-dark);
+}
+
+.light {
+  color: #222;
+  background: linear-gradient(135deg, #F6B1C3, #A7BFE8, #5F9FD7);
+}
+
+.main { flex: 1; padding: 32px; }
+
+.hero { max-width: 960px; margin: 40px auto; }
+
+.cards {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 900px) {
+  .cards { grid-template-columns: 1.3fr 1fr; }
+}
+
